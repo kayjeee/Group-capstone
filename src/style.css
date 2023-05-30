@@ -1,47 +1,44 @@
 /* Reset default margins and paddings */
-body, h1, h2, p {
-    margin: 0;
-    padding: 0;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  font-size: 16px;
+}
+/*style the header*/
+li {
+  list-style: none;
+}
+a {
+  color: slateblue;
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  background-color: #f1f1f1;
+}
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
   
-  /* Style the header */
-  header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-  }
-  
-  /* Style the navigation menu */
-  nav {
-    background-color: #666;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo {
-    margin-right: auto; /* Pushes the logo to the right */
-  }
-  
-  .nav-links {
-    list-style: none;
-    display: flex;
-  }
-  
-  .nav-links li {
-    margin-right: 10px;
-  }
-  
-  .nav-links li a {
-    color: #fff;
-    text-decoration: none;
-  }
   
   /* Style the main content */
   main {
-    margin: 20px;
+    /* margin: 20px; */
+    margin: 0 auto;
+    padding: 1rem;
   }
   .item-list {
     display: grid;
@@ -81,4 +78,5 @@ body, h1, h2, p {
     color: #fff;
     padding: 10px;
     text-align: center;
+    margin-top: auto;
   }

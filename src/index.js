@@ -11,7 +11,6 @@ const itemListContainer = document.querySelector('.item-list');
 const createItemElement = (item) => {
   const {
     name,
-    summary,
     image: { medium },
     likes
   } = item;
@@ -25,8 +24,8 @@ const createItemElement = (item) => {
   itemTitle.textContent = name;
 
   // Create the item description
-  const itemDescription = document.createElement('p');
-  itemDescription.innerHTML = summary;
+  // const itemDescription = document.createElement('p');
+  // itemDescription.innerHTML = summary;
 
   // Create the item actions container
   const itemActionsContainer = document.createElement('div');
@@ -63,7 +62,7 @@ const createItemElement = (item) => {
   itemActionsContainer.appendChild(imageContainer);
   itemActionsContainer.appendChild(buttonsContainer);
   itemContainer.appendChild(itemTitle);
-  itemContainer.appendChild(itemDescription);
+  // itemContainer.appendChild(itemDescription);
   itemContainer.appendChild(itemActionsContainer);
 
   return itemContainer;
