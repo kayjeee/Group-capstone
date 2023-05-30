@@ -1,0 +1,84 @@
+/* Reset default margins and paddings */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Style the header */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  /* Style the navigation menu */
+  nav {
+    background-color: #666;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    margin-right: auto; /* Pushes the logo to the right */
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin-right: 10px;
+  }
+  
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  /* Style the main content */
+  main {
+    margin: 20px;
+  }
+  .item-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .item {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .row {
+    margin-bottom: 5px;
+  }
+  
+  .likes i {
+    margin-right: 5px;
+  }
+  
+  
+  /* Style the footer */
+  footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
