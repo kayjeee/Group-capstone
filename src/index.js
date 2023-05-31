@@ -13,13 +13,16 @@ const middleSection = document.getElementById('middle');
 let currentValue = 0;
 // Get the container for the item list
 const itemListContainer = document.querySelector('.item-list');
-
+const getLikesCount = async (item_id) => {
+  const response = await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/pCT6kArf3OLol0gUxPZ3/likes?item_id=${item_id}`);
+  const data = await response.json();
+  return data.length > 0 ? data[0].likes : 0;
+};
 // Function to create a single item element
-const createItemElement = (item) => {
+const createItemElement = async (item) => {
   const {
     name,
-    image: { medium },
-    likes
+    image: { medium }
   } = item;
 
   // Create the item container
@@ -30,12 +33,7 @@ const createItemElement = (item) => {
   const itemTitle = document.createElement('h2');
   itemTitle.textContent = name;
 
-  // Create the item description
-  // const itemDescription = document.createElement('p');
-  // itemDescription.innerHTML = summary;
-
   // Create the item actions container
-  
   const itemActionsContainer = document.createElement('div');
   itemActionsContainer.classList.add('item-actions');
   itemContainer.setAttribute('id', `show-${item.id}`); // Set the unique identifier using show.id
@@ -56,7 +54,8 @@ const createItemElement = (item) => {
   buttonsContainer.classList.add('row');
   const likesSpan = document.createElement('span');
   likesSpan.classList.add('likes');
-  likesSpan.innerHTML = `<i class="fas fa-heart"></i> ${likes || 0} <a class="likes">${likes || 0} Likes </a> Likes` ;
+  const likesCount = await getLikesCount(name); // Retrieve the likes count
+  likesSpan.innerHTML = `<i class="fas fa-heart"></i> ${likesCount} Likes`;
   const commentsButton = document.createElement('button');
   commentsButton.classList.add('comments-btn');
   commentsButton.textContent = 'Comments';
@@ -71,7 +70,6 @@ const createItemElement = (item) => {
   itemActionsContainer.appendChild(imageContainer);
   itemActionsContainer.appendChild(buttonsContainer);
   itemContainer.appendChild(itemTitle);
-  // itemContainer.appendChild(itemDescription);
   itemContainer.appendChild(itemActionsContainer);
 
   return itemContainer;
@@ -92,8 +90,8 @@ const handleReservationsButtonClick = (item) => {
 // Fetch TV shows and display them in the item list container
 fetchTVShows()
   .then((shows) => {
-    shows.forEach((show) => {
-      const itemElement = createItemElement(show);
+    shows.forEach(async (show) => {
+      const itemElement = await createItemElement(show); // Await the creation of the item element
       const likeButton = itemElement.querySelector('.likes');
       const commentsButton = itemElement.querySelector('.comments-btn');
       const reservationsButton = itemElement.querySelector('.reservations-btn');
@@ -109,7 +107,7 @@ fetchTVShows()
     console.error('Error fetching TV shows:', error);
   });
 
-  const handleLikeButtonClick = async (show) => {
+const handleLikeButtonClick = async (show) => {
   const likedItems = await getLikes();
   const like = likedItems.find((item) => item.item_id === show.name);
   const itemElement = document.querySelector(`#show-${show.id}`);
@@ -138,7 +136,6 @@ fetchTVShows()
     },
   });
 };
-
   
 /** 
 const getLikes = async () => {
