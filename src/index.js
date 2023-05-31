@@ -110,30 +110,36 @@ fetchTVShows()
   });
 
   const handleLikeButtonClick = async (show) => {
-    const likedItems = await getLikes();
-    const like = likedItems.find((item) => item.item_id === show.name);
-    const itemElement = document.querySelector(`#show-${show.id}`);
-    const likesStatus = itemElement.querySelector('.likes');
-  
-    if (like) {
-      // Increment the likes count
-      like.likes++;
-      likesStatus.textContent = like.likes;
-    } else {
-      // Add a new like for the show
-      likedItems.push({ item_id: show.name, likes: 1 });
-      likesStatus.textContent = '1';
-    }
-  
-    // Update the likes on the server
-    await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/pCT6kArf3OLol0gUxPZ3/likes', {
-      method: 'POST',
-      body: JSON.stringify(likedItems),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  const likedItems = await getLikes();
+  const like = likedItems.find((item) => item.item_id === show.name);
+  const itemElement = document.querySelector(`#show-${show.id}`);
+  const likesStatus = itemElement.querySelector('.likes');
+
+  if (like) {
+    // Increment the likes count
+    like.likes++;
+    likesStatus.textContent = like.likes;
+  } else {
+    // Add a new like for the show
+    likedItems.push({ item_id: show.name, likes: 1 });
+    likesStatus.textContent = '1';
+  }
+
+  // Update the likes on the server
+  const requestBody = {
+    item_id: show.name
   };
+
+  await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/pCT6kArf3OLol0gUxPZ3/likes', {
+    method: 'POST',
+    body: JSON.stringify(requestBody),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+  
 /** 
 const getLikes = async () => {
   let likedItems = [];
