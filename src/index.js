@@ -1,9 +1,16 @@
 import './style.css';
 
 // Your remaining JavaScript code goes her
-
+import liking from '../modules/liking.js';
 import { fetchTVShows } from '../modules/utils';
+import getLikes from '../modules/getlikes';
 
+const body = document.querySelector('body');
+const commentModal = document.getElementById('commentModal');
+let count = 0;
+const counter = document.getElementById('count');
+const middleSection = document.getElementById('middle');
+let currentValue = 0;
 // Get the container for the item list
 const itemListContainer = document.querySelector('.item-list');
 
@@ -28,8 +35,10 @@ const createItemElement = (item) => {
   // itemDescription.innerHTML = summary;
 
   // Create the item actions container
+  
   const itemActionsContainer = document.createElement('div');
   itemActionsContainer.classList.add('item-actions');
+  itemContainer.setAttribute('id', `show-${item.id}`); // Set the unique identifier using show.id
 
   // Create the image container
   const imageContainer = document.createElement('div');
@@ -47,7 +56,7 @@ const createItemElement = (item) => {
   buttonsContainer.classList.add('row');
   const likesSpan = document.createElement('span');
   likesSpan.classList.add('likes');
-  likesSpan.innerHTML = `<i class="fas fa-heart"></i> ${likes || 0} Likes`;
+  likesSpan.innerHTML = `<i class="fas fa-heart"></i> ${likes || 0} <a class="likes">${likes || 0} Likes </a> Likes` ;
   const commentsButton = document.createElement('button');
   commentsButton.classList.add('comments-btn');
   commentsButton.textContent = 'Comments';
@@ -66,12 +75,6 @@ const createItemElement = (item) => {
   itemContainer.appendChild(itemActionsContainer);
 
   return itemContainer;
-};
-
-// Function to handle the like button click
-const handleLikeButtonClick = (item) => {
-  // TODO: Implement the logic to interact with the Involvement API and update the like count
-  console.log(`Liked ${item.name}`);
 };
 
 // Function to handle the comments button click
@@ -104,4 +107,42 @@ fetchTVShows()
   })
   .catch((error) => {
     console.error('Error fetching TV shows:', error);
+  });
+
+  const handleLikeButtonClick = async (show) => {
+    const likedItems = await getLikes();
+    const like = likedItems.find((item) => item.item_id === show.name);
+    const itemElement = document.querySelector(`#show-${show.id}`);
+    const likesStatus = itemElement.querySelector('.likes');
+  
+    if (like) {
+      // Increment the likes count
+      like.likes++;
+      likesStatus.textContent = like.likes;
+    } else {
+      // Add a new like for the show
+      likedItems.push({ item_id: show.name, likes: 1 });
+      likesStatus.textContent = '1';
+    }
+  
+    // Update the likes on the server
+    await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/pCT6kArf3OLol0gUxPZ3/likes', {
+      method: 'POST',
+      body: JSON.stringify(likedItems),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+/** 
+const getLikes = async () => {
+  let likedItems = [];
+  await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/bj33OEQX34RPwoGeJ8eJ/likes')
+    .then((response) => response.json())
+    .then((res) => (likedItems = res));
+  return likedItems;
+};
+*/
+  body.addEventListener('click', () => {
+    liking();
   });
