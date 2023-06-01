@@ -12,12 +12,13 @@ let currentValue = 0;
 
 const appId = 'Mlar7kUsbdh93qbI71nO';
 const invUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appId}/comments`;
+
 // Fetch comments for a specific item
 const fetchComments = async (itemId) => {
   try {
     // Fetch comments from the server
-    const comments = await fetch(`${invUrl}?item_id=${itemId}`);
-    const data = await comments.json();
+    const response = await fetch(`${invUrl}?item_id=${itemId}`);
+    const data = await response.json();
 
     // Get references to HTML elements
     const commentHead = document.querySelector('.comm-header');
@@ -25,20 +26,20 @@ const fetchComments = async (itemId) => {
 
     if (data.length > 0) {
       // If there are comments, display the count and populate the comment list
-      commentHead.innerHTML = `Comments(${data.length})`;
+      commentHead.textContent = `Comments(${data.length})`;
       commentList.innerHTML = '';
 
-      data.forEach((comm) => {
+      data.forEach((comment) => {
         // Create HTML markup for each comment item
         const commentItem = `
-          <span class="comment-list">${comm.creation_date} ${comm.username}: ${comm.comment}</span>
+          <span class="comment-list">${comment.creation_date} ${comment.username}: ${comment.comment}</span>
           <hr>
         `;
         commentList.innerHTML += commentItem;
       });
     } else {
       // If there are no comments, display a message
-      commentHead.innerHTML = 'Comments(0)';
+      commentHead.textContent = 'Comments(0)';
       const noComment = `
         <span>No comments to show.</span>
       `;
@@ -55,7 +56,7 @@ const postComment = async (itemId) => {
   const username = document.querySelector('.nameInput');
   const comment = document.querySelector('.commentInput');
 
-  if (username.value !== '' || comment.value !== '') {
+  if (username.value !== '' && comment.value !== '') {
     try {
       // Send a POST request to the server to post the comment
       const response = await fetch(invUrl, {
@@ -77,75 +78,65 @@ const postComment = async (itemId) => {
       // Handle any errors that occur during the fetch
       throw new Error('Request error: ', err);
     }
-    return true;
   }
 
   return false;
 };
 
-// Close the comment popup modal
-const closePopupModal = () => {
-  const closeIcon = document.querySelector('.close-icon');
-  closeIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!commentModal.classList.contains('hide-modal')) {
-      commentModal.classList.add('hide-modal');
-    }
+// Show the comment popup modal
+const showCommentModal = async (movie) => {
+  const modal = document.createElement('div');
+  modal.className = 'comment-modal';
+  modal.innerHTML = `
+    <div class="header-container">
+      <div class="img-container">
+        <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
+      </div>
+      <i class="close-icon fa-solid fa-xmark fa-5x"></i>
+    </div>
+    <h3 class="movie-name">${movie.name}</h3>
+    <div class="details">
+      <div class="detail-item">${movie.summary}</div>
+      <div class="detail-item">
+        Language: ${movie.language}<br/>
+        Premiered: ${movie.premiered} <br/>
+        Genre: ${movie.genres[0]}
+      </div>
+    </div>
+
+    <div class="comments">
+      <h3 class="comm-header"></h3>
+      <div class="comment-list"></div>
+    </div>
+
+    <div class="add-comment">
+      <h3 class="add-comm-header">Add Comment</h3>
+      <div class="comment-input-container">
+        <input type="text" class="nameInput" size="30" placeholder="Your name">
+        <br>
+        <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
+        <br>
+        <button class="sub-comment-btn" type="button">Comment</button>
+      </div>
+    </div>
+  `;
+
+  const closeIcon = modal.querySelector('.close-icon');
+  closeIcon.addEventListener('click', () => {
+    modal.remove();
   });
-};
-const showCommentModal = async (arr) => {
-  const commentBtns = document.querySelectorAll('.comments-btn');
 
-  commentBtns.forEach((commentBtn, index) => {
-    commentBtn.addEventListener('click', async () => {
-      const movie = arr[index];
-      const btnId = `comment-${index}`;
-
-      const modal = document.createElement('div');
-      modal.className = 'comment-modal';
-      modal.innerHTML = `
-        <div class="header-container">
-          <div class="img-container">
-            <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
-          </div>
-          <i class="close-icon fa-solid fa-xmark fa-5x"></i>
-        </div>
-        <h3 class="movie-name">${movie.name}</h3>
-        <div class="details">
-          <div class="detail-item">${movie.summary}</div>
-          <div class="detail-item">
-            Laguage: ${movie.language}<br/>
-            Premiered: ${movie.premiered} <br/>
-            Genre: ${movie.genres[0]}
-          </div>
-        </div>
-
-        <div class="comments">
-          <h3 class="comm-header"></h3>
-          <div class="comment-list"></div>
-        </div>
-
-        <div class="add-comment">
-          <h3 class="add-comm-header">Add Comment</h3>
-          <div class="comment-input-container">
-            <input type="text" class="nameInput" size="30" placeholder="Your name">
-            <br>
-            <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
-            <br>
-            <button class="sub-comment-btn" id="${btnId}" type="button">Comment</button>
-          </div>
-        </div>
-      `;
-
-      const closeIcon = modal.querySelector('.close-icon');
-      closeIcon.addEventListener('click', () => {
-        modal.remove();
-      });
-
-      document.body.appendChild(modal);
-    });
+  const commentBtn = modal.querySelector('.sub-comment-btn');
+  commentBtn.addEventListener('click', async () => {
+    await postComment(movie.id);
   });
+
+  commentModal.appendChild(modal);
+
+  // Fetch comments for the movie
+  fetchComments(movie.id);
 };
+
 const movies = async () => {
   // Fetch all movies
   const arr = await getAllmovies();
@@ -153,7 +144,7 @@ const movies = async () => {
   // Select the main element
   const mainElement = document.querySelector('main');
 
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 9 && i < arr.length; i++) {
     const movie = arr[i];
 
     if (!movie || !movie.image || !movie.name) {
@@ -194,20 +185,18 @@ const movies = async () => {
 
     // Append the movie item to the main element
     mainElement.appendChild(movieItem);
+
+    // Show the comment modal for the current movie
+    movieItem.querySelector('.comments-btn').addEventListener('click', () => {
+      showCommentModal(movie);
+    });
   }
 
-  // Show the comment modal
-  showCommentModal(arr);
-// Update the counter with the total count of movies
-counter.innerText = `[${arr.length}]`;
-counter.style.color = 'blue';
+  // Update the counter with the total count of movies
+  const counter = document.getElementById('count');
+  counter.innerText = `[${arr.length}]`;
+  counter.style.color = 'blue';
 };
 
-
-
-
-  
-
 export default movies;
-
 export { movies };
