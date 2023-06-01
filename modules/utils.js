@@ -73,16 +73,16 @@ const postComment = async (itemId) => {
         comment.value = '';
         fetchComments(itemId);
         return data;
+      } else {
+        console.error('Error posting comment:', response.status, response.statusText);
       }
     } catch (err) {
-      // Handle any errors that occur during the fetch
-      throw new Error('Request error: ', err);
+      console.error('Error posting comment:', err);
     }
   }
 
   return false;
 };
-
 // Show the comment popup modal
 const showCommentModal = async (movie) => {
   const modal = document.createElement('div');
