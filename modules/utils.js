@@ -93,47 +93,38 @@ const closePopupModal = () => {
     }
   });
 };
+const showCommentModal = async (arr) => {
+  const commentBtns = document.querySelectorAll('.comments-btn');
 
-const showCommentModal = async () => {
-  const arr = await getAllmovies(); // Fetch movie data
+  commentBtns.forEach((commentBtn, index) => {
+    commentBtn.addEventListener('click', async () => {
+      const movie = arr[index];
+      const btnId = `comment-${index}`;
 
-  // Select all comment buttons
-  const commentBtns = document.querySelectorAll('.comment-btn');
-
-  // Iterate over each comment button
-  commentBtns.forEach((commentBtn) => {
-    const btnId = commentBtn.getAttribute('id'); // Get the button ID
-    const movieDetails = arr[btnId]; // Get movie details based on ID
-
-    // Add event listener to the comment button
-    commentBtn.addEventListener('click', () => {
-      fetchComments(btnId); // Fetch comments for the movie
-
-      // Create the modal HTML markup
-      const modal = `
-        <!-- Header section -->
+      const modal = document.createElement('div');
+      modal.className = 'comment-modal';
+      modal.innerHTML = `
         <div class="header-container">
           <div class="img-container">
-            <img src="${movieDetails.image.medium}" class="mov-img" alt="Movie Image">
+            <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
           </div>
           <i class="close-icon fa-solid fa-xmark fa-5x"></i>
         </div>
-        <!-- Movie details section -->
-        <h3 class="movie-name">${movieDetails.name}</h3>
+        <h3 class="movie-name">${movie.name}</h3>
         <div class="details">
-          <div class="detail-item">${movieDetails.summary}</div>
+          <div class="detail-item">${movie.summary}</div>
           <div class="detail-item">
-            Laguage: ${movieDetails.language}<br/>
-            Premiered: ${movieDetails.premiered} <br/>
-            Genre: ${movieDetails.genres[0]}
+            Laguage: ${movie.language}<br/>
+            Premiered: ${movie.premiered} <br/>
+            Genre: ${movie.genres[0]}
           </div>
         </div>
-        <!-- Comments section -->
+
         <div class="comments">
           <h3 class="comm-header"></h3>
           <div class="comment-list"></div>
         </div>
-        <!-- Add comment section -->
+
         <div class="add-comment">
           <h3 class="add-comm-header">Add Comment</h3>
           <div class="comment-input-container">
@@ -146,23 +137,15 @@ const showCommentModal = async () => {
         </div>
       `;
 
-      // Show the comment modal and set the modal content
-      if (commentModal.classList.contains('hide-modal')) {
-        commentModal.classList.remove('hide-modal');
-        commentModal.innerHTML = modal;
-      }
-
-      // Add event listener to the "Comment" button within the modal
-      const cmntBtn = document.querySelector('.sub-comment-btn');
-      cmntBtn.addEventListener('click', () => {
-        postComment(btnId); // Post the comment
+      const closeIcon = modal.querySelector('.close-icon');
+      closeIcon.addEventListener('click', () => {
+        modal.remove();
       });
 
-      closePopupModal(); // Close the popup modal
+      document.body.appendChild(modal);
     });
   });
 };
-
 const movies = async () => {
   // Fetch all movies
   const arr = await getAllmovies();
@@ -172,6 +155,10 @@ const movies = async () => {
 
   for (let i = 0; i < 9; i++) {
     const movie = arr[i];
+
+    if (!movie || !movie.image || !movie.name) {
+      continue; // Skip iteration if movie data is missing
+    }
 
     // Fetch likes for the current movie
     const res = await a_Like_in_movie();
@@ -200,7 +187,6 @@ const movies = async () => {
             <p><span id="likes-status">${assignLike}</span> likes</p>
           </a>
           <button class="comments-btn">Comments</button>
-          <button class="comment-btn" type="button" id="comment-${i}">Comments</button>
           <button type="button" class="reservation-btn">Reservations</button>
         </div>
       </div>
@@ -208,58 +194,20 @@ const movies = async () => {
 
     // Append the movie item to the main element
     mainElement.appendChild(movieItem);
-
-    // Show the comment modal
-    showCommentModal();
   }
 
-  // Update the counter with the total count of movies
-  counter.innerText = `[${arr.length}]`;
-  counter.style.color = 'blue';
+  // Show the comment modal
+  showCommentModal(arr);
+// Update the counter with the total count of movies
+counter.innerText = `[${arr.length}]`;
+counter.style.color = 'blue';
 };
+
+
+
+
+  
 
 export default movies;
 
-const showMovies = async (movies) => {
-  const itemListContainer = document.querySelector('.item-list');
-  itemListContainer.innerHTML = '';
-
-  for (let i = 0; i < 16; i++) {
-    // Generate HTML markup for each movie item
-    const itemMarkup = `
-      <div class="item">
-        ${movies[i].name}
-        <div class="item-actions">
-          <div class="container">
-            <div class="row">
-              <img src="${movies[i].image.medium}" alt="Item Image">
-            </div>
-          </div>
-          <div class="rows">
-            <div class="likes">
-              <i id="item${movies[i].id}" class="fas fa-heart"></i>
-            </div>
-            <p>0</p>
-            <p>likes</p>
-            <button class="comments-btn">Comments</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Append the generated item markup to the item list container
-    itemListContainer.innerHTML += itemMarkup;
-  }
-
-  // Add event listeners for the like buttons (assuming postLikes and getLikes functions are defined)
-  const likesButtons = document.querySelectorAll('.likes i');
-  likesButtons.forEach((button) => {
-    button.addEventListener('click', async (e) => {
-      const itemid = e.target.id;
-      await postLikes(itemid);
-      await getlikes(itemid);
-    });
-  });
-};
-
-export { movies, showMovies };
+export { movies };
