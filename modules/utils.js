@@ -2,8 +2,6 @@
 import getAllmovies from "./getAllmovies";
 import a_Like_in_movie from "./a_like_inMovie";
 
-
-
 const commentModal = document.getElementById('commentModal');
 
 const appId = 'Mlar7kUsbdh93qbI71nO';
