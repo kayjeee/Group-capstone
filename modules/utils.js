@@ -1,22 +1,17 @@
-import postLikes from "./getLikes";
+
 import getAllmovies from "./getAllmovies";
 import a_Like_in_movie from "./a_like_inMovie";
 
 
 
 const commentModal = document.getElementById('commentModal');
-let count = 0;
-const counter = document.getElementById('count');
-const middleSection = document.getElementById('middle');
-let currentValue = 0;
 
 const appId = 'Mlar7kUsbdh93qbI71nO';
 const invUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appId}/comments`;
 
-// Fetch comments for a specific item
 const fetchComments = async (itemId) => {
   try {
-    // Fetch comments from the server
+    // Fetch comments from the server for the specified item ID
     const response = await fetch(`${invUrl}?item_id=${itemId}`);
     const data = await response.json();
 
@@ -29,8 +24,8 @@ const fetchComments = async (itemId) => {
       commentHead.textContent = `Comments(${data.length})`;
       commentList.innerHTML = '';
 
+      // Iterate through each comment and create HTML markup for display
       data.forEach((comment) => {
-        // Create HTML markup for each comment item
         const commentItem = `
           <span class="comment-list">${comment.creation_date} ${comment.username}: ${comment.comment}</span>
           <hr>
@@ -40,9 +35,7 @@ const fetchComments = async (itemId) => {
     } else {
       // If there are no comments, display a message
       commentHead.textContent = 'Comments(0)';
-      const noComment = `
-        <span>No comments to show.</span>
-      `;
+      const noComment = `<span>No comments to show.</span>`;
       commentList.innerHTML = noComment;
     }
   } catch (err) {
@@ -51,11 +44,12 @@ const fetchComments = async (itemId) => {
   }
 };
 
-// Post a new comment for a specific item
+
 const postComment = async (itemId) => {
   const username = document.querySelector('.nameInput');
   const comment = document.querySelector('.commentInput');
 
+  // Check if the username and comment fields are not empty
   if (username.value !== '' && comment.value !== '') {
     try {
       // Send a POST request to the server to post the comment
@@ -65,24 +59,38 @@ const postComment = async (itemId) => {
         body: JSON.stringify({ item_id: itemId, username: username.value, comment: comment.value }),
       });
 
+      // Parse the response as JSON
       const data = await response.json();
 
+      // Check if the POST request was successful
       if (response.ok) {
-        // If the request is successful, clear the input fields and fetch the updated comments
+        // Clear the input fields
         username.value = '';
         comment.value = '';
+
+        // Fetch the updated comments for the movie
         fetchComments(itemId);
+
+        // Reload the comments popup by calling showCommentModal with the corresponding movie object
+        const movie = arr.find((movie) => movie.id === itemId);
+        showCommentModal(movie);
+
+        // Return the response data
         return data;
       } else {
+        // Log an error if the POST request was not successful
         console.error('Error posting comment:', response.status, response.statusText);
       }
     } catch (err) {
+      // Log an error if an error occurred during the POST request
       console.error('Error posting comment:', err);
     }
   }
 
+  // Return false if the username or comment fields are empty
   return false;
 };
+
 // Show the comment popup modal
 const showCommentModal = async (movie) => {
   const modal = document.createElement('div');
