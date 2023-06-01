@@ -27,7 +27,6 @@ a {
   justify-content: space-around;
   padding: 1rem;
   background-color: #f1f1f1;
-  align-items: center;
 }
 .nav-links {
   display: flex;
@@ -36,45 +35,7 @@ a {
   
   
   /* Style the main content */
-  main {
-    /* margin: 20px; */
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  .item-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
-  }
   
-  .item {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 10px;
-  }
-  
-  .item-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .row {
-    margin-bottom: 5px;
-  }
-  
-  .likes  {
-    cursor: pointer;
-  }
-  .fasfa-heart {
-    color: red;
-  }
   
   
   /* Style the footer */
@@ -85,36 +46,29 @@ a {
     text-align: center;
     margin-top: auto;
   }
-  .rows {
+  main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    justify-content: center;
+  }
+
+  .movie-item {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
     align-items: center;
+    background-color: #f0f0f0;
+    padding: 20px;
   }
-  .comments-btn {
-    border: 1px solid #396df2;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 16px;
-    font-family: "Poppins", sans-serif;
-    color: #396df2;
-    width: 90px;
-    height: 30px;
-    font-style: normal;
-    text-align: center;
-    border-radius: 10px;
-    background-color: #fff;
-    cursor: pointer;
+
+  .movie-item img {
+    width: 200px;
+    height: auto;
   }
-  .comments-btn:hover {
-    background: #6070ff;
-    color: #fff;
-  }
-  
-  .comments-btn:active {
-    background: #2230d2;
-    color: #fff;
-  }
-  
-  .comments-btn:disabled {
-    background: #5e6c84;
+
+  .item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
   }

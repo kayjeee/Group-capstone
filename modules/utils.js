@@ -167,7 +167,10 @@ const movies = async () => {
   // Fetch all movies
   const arr = await getAllmovies();
 
-  for (let i = 0; i < 20; i++) {
+  // Select the main element
+  const mainElement = document.querySelector('main');
+
+  for (let i = 0; i < 9; i++) {
     const movie = arr[i];
 
     // Fetch likes for the current movie
@@ -183,54 +186,28 @@ const movies = async () => {
       assignLike = like[0].likes;
     }
 
-    // Create a new movie element
-    const movieElement = document.createElement('article');
-    movieElement.className = 'movie';
-    movieElement.id = `movie-${i}`;
-    movieElement.innerHTML = `
-      <img src="${movie.image.medium}" alt="${movie.name}">
-      <h5>${movie.name}</h5>
-      <a class="likes">
-        <img class="likeBtn" src="https://img.icons8.com/material-outlined/24/000000/filled-like.png">
-        <p><span id="likes-status">${assignLike}</span>likes</p>
-      </a>
-      <button class="comment-btn" type="button" id="comment-${i}">comments</button>
-      <button type="button" class="reservation-btn">reservations</button>
-      <p>${movie.summary}</p>
-    `;
-
-    // Create the new item list
-    const itemList = document.createElement('div');
-    itemList.className = 'item-list';
-    itemList.innerHTML = `
+    // Create a new movie item
+    const movieItem = document.createElement('article');
+    movieItem.className = 'movie-item';
+    movieItem.id = `movie-${i}`;
+    movieItem.innerHTML = `
       <div class="item">
-        Under the Dome
+        <img src="${movie.image.medium}" alt="${movie.name}">
+        <h5>${movie.name}</h5>
         <div class="item-actions">
-          <div class="container">
-            <div class="row">
-              <img src="https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg" alt="Item Image">
-            </div>
-          </div>
-          <div class="rows">
-            <div class="likes">
-              <i id="item1" class="fas fa-heart"></i>
-            </div>
-            <p>0</p>
-            <p>likes</p>
-            <button class="comments-btn">Comments</button>
-          </div>
+          <a class="likes">
+            <img class="likeBtn" src="https://img.icons8.com/material-outlined/24/000000/filled-like.png">
+            <p><span id="likes-status">${assignLike}</span> likes</p>
+          </a>
+          <button class="comments-btn">Comments</button>
+          <button class="comment-btn" type="button" id="comment-${i}">Comments</button>
+          <button type="button" class="reservation-btn">Reservations</button>
         </div>
       </div>
     `;
 
-    // Append the movie element to the main container
-    const mainContainer = document.querySelector('main');
-    mainContainer.appendChild(movieElement);
-    mainContainer.appendChild(itemList);
-
-    // Select the middle section and append the movie element
-    const middleSection = document.getElementById('middleSection');
-    middleSection.appendChild(movieElement);
+    // Append the movie item to the main element
+    mainElement.appendChild(movieItem);
 
     // Show the comment modal
     showCommentModal();
@@ -240,7 +217,6 @@ const movies = async () => {
   counter.innerText = `[${arr.length}]`;
   counter.style.color = 'blue';
 };
-
 
 export default movies;
 
