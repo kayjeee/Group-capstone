@@ -163,9 +163,6 @@ const showCommentModal = async () => {
   });
 };
 
-
-//how we get top get the movies and show them
-// TODO fix stylying 
 const movies = async () => {
   // Fetch all movies
   const arr = await getAllmovies();
@@ -202,7 +199,37 @@ const movies = async () => {
       <p>${movie.summary}</p>
     `;
 
-    // Append the movie element to the middle section
+    // Create the new item list
+    const itemList = document.createElement('div');
+    itemList.className = 'item-list';
+    itemList.innerHTML = `
+      <div class="item">
+        Under the Dome
+        <div class="item-actions">
+          <div class="container">
+            <div class="row">
+              <img src="https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg" alt="Item Image">
+            </div>
+          </div>
+          <div class="rows">
+            <div class="likes">
+              <i id="item1" class="fas fa-heart"></i>
+            </div>
+            <p>0</p>
+            <p>likes</p>
+            <button class="comments-btn">Comments</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Append the movie element to the main container
+    const mainContainer = document.querySelector('main');
+    mainContainer.appendChild(movieElement);
+    mainContainer.appendChild(itemList);
+
+    // Select the middle section and append the movie element
+    const middleSection = document.getElementById('middleSection');
     middleSection.appendChild(movieElement);
 
     // Show the comment modal
