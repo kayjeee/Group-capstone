@@ -7,7 +7,6 @@ const response = await fetch('https://us-central1-involvement-api.cloudfunctions
   headers: { 'Content-Type': 'application/json; charset=UTF-8' }
 })
 const getResponse = await response.text()
-console.log(getResponse)
 return getResponse;
 }
 export default postLikes

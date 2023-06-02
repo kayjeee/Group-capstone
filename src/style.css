@@ -72,11 +72,8 @@ a {
   .likes  {
     cursor: pointer;
   }
-  .fasfa-heart {
-    color: red;
-  }
   
-  
+
   /* Style the footer */
   footer {
     background-color: #333;
@@ -118,3 +115,78 @@ a {
   .comments-btn:disabled {
     background: #5e6c84;
   }
+  /*style the modal*/
+  .modal {
+    display: none;
+   
+  }
+  /*show section*/
+  .show-section {
+    position: fixed;
+    display: flex;
+    padding: .5rem;
+    border-radius: 10px;
+    gap: 1rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 10;
+    background-color: #fff;
+    width: 600px;
+    max-width: 80%;
+
+  }
+  .header-body {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 350px;
+    padding: .4rem;
+    font-size: 1.2rem;
+  }
+  .comments {
+    border: 1px solid red;
+  }
+  .formDiv {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+  }
+  input {
+    padding: .5rem;
+    outline: none;
+  }
+  .submit {
+    padding: .5rem;
+    width: 150px;
+    background-color: rgb(107, 239, 228);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  /* .overlay {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-color: rgba(0,0,0,.5);
+  }
+  .active {
+    pointer-events: all;
+    opacity: 1;
+  } */
