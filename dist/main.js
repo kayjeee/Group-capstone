@@ -2,6 +2,151 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./modules/a_like_inMovie.js":
+/*!***********************************!*\
+  !*** ./modules/a_like_inMovie.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const a_Like_in_movie = async () => {
+    // Create an empty array to store the liked items
+    let likedItems = [];
+  
+    // Fetch likes data from the specified URL and wait for the response
+    const response = await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/Mlar7kUsbdh93qbI71nO/likes');
+  
+    // Parse the response as JSON and wait for the parsed data
+    const data = await response.json();
+  
+    // Assign the parsed data to the likedItems array
+    likedItems = data;
+  
+    // Return the array containing the liked items
+    return likedItems;
+  };
+  
+  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (a_Like_in_movie);
+  
+
+/***/ }),
+
+/***/ "./modules/getAllmovies.js":
+/*!*********************************!*\
+  !*** ./modules/getAllmovies.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const getAllmovies = async () => {
+  // Create an empty array to store the fetched data
+  let arr = [];
+
+  try {
+    // Fetch data from the specified URL and wait for the response
+    const response = await fetch('https://api.tvmaze.com/shows?page=1');
+
+    // Parse the response as JSON and wait for the parsed data
+    const data = await response.json();
+
+    // Assign the parsed data to the array
+    arr = data;
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+    return [];
+  }
+
+  // Return the array containing the fetched data
+  return arr;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getAllmovies);
+
+
+/***/ }),
+
+/***/ "./modules/liking_a_Movie.js":
+/*!***********************************!*\
+  !*** ./modules/liking_a_Movie.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _getAllmovies_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getAllmovies.js */ "./modules/getAllmovies.js");
+/* harmony import */ var _post_a_Like_in_movie_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./post_a_Like_in_movie.js */ "./modules/post_a_Like_in_movie.js");
+// Import the necessary modules
+
+//import postLike from './likesApi.js';
+
+
+// Define the 'liking' function
+const liking_a_Movie = async () => {
+  // Fetch all movies
+  const allMovies = await (0,_getAllmovies_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+  // Select all like buttons and like count spans
+  const likesBtn = document.querySelectorAll('.likeBtn');
+  const spans = document.querySelectorAll('#likes-status');
+  
+  // Iterate over each like button
+  likesBtn.forEach((likeBtn, index) => {
+    // Retrieve the initial like count from the span
+    let likeCount = JSON.parse(spans[index].innerHTML);
+    
+    // Add a click event listener to the like button
+    likeBtn.addEventListener('click', () => {
+      // Post a like for the corresponding movie
+      (0,_post_a_Like_in_movie_js__WEBPACK_IMPORTED_MODULE_1__["default"])(allMovies[index].name);
+      
+      // Increment the like count
+      likeCount += 1;
+
+      // Update the like count in the corresponding span
+      spans[index].innerHTML = likeCount;
+    });
+  });
+};
+
+// Export the 'liking' function as the default export
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (liking_a_Movie);
+
+/***/ }),
+
+/***/ "./modules/post_a_Like_in_movie.js":
+/*!*****************************************!*\
+  !*** ./modules/post_a_Like_in_movie.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const post_a_Like_in_movie = (movie) => {
+    // Make a POST request to the specified URL with the movie data-
+    fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/Mlar7kUsbdh93qbI71nO/likes', {
+      method: 'POST', // Use the POST method
+      headers: { 'content-type': 'application/json' }, // Set the content-type header to JSON
+      body: JSON.stringify({ // Convert the movie data to a JSON string
+        item_id: movie, // Pass the movie as the item_id
+      }),
+    });
+  };
+  
+  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (post_a_Like_in_movie);
+
+/***/ }),
+
 /***/ "./modules/utils.js":
 /*!**************************!*\
   !*** ./modules/utils.js ***!
@@ -10,47 +155,211 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   fetchTVShowDetails: () => (/* binding */ fetchTVShowDetails),
-/* harmony export */   fetchTVShows: () => (/* binding */ fetchTVShows)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   movies: () => (/* binding */ movies)
 /* harmony export */ });
-// Hard-coded data
-const API = 'https://api.tvmaze.com';
+/* harmony import */ var _getAllmovies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getAllmovies */ "./modules/getAllmovies.js");
+/* harmony import */ var _a_like_inMovie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./a_like_inMovie */ "./modules/a_like_inMovie.js");
 
-const fetchTVShows = async () => {
+
+
+
+const commentModal = document.getElementById('commentModal');
+
+const appId = 'Mlar7kUsbdh93qbI71nO';
+const invUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appId}/comments`;
+
+const fetchComments = async (itemId) => {
   try {
-    // URL for fetching the TV shows
-    const url = `${API}/shows`;
+    // Fetch comments from the server for the specified item ID
+    const response = await fetch(`${invUrl}?item_id=${itemId}`);
+    const data = await response.json();
 
-    // Fetch TV show data from the API
-    const response = await fetch(url);
-    const shows = await response.json();
+    // Get references to HTML elements
+    const commentHead = document.querySelector('.comm-header');
+    const commentList = document.querySelector('.comment-list');
 
-    // Return the fetched data
-    return shows;
-  } catch (error) {
-    // Handle errors, log the error to the console, and return an empty array
-    console.error('Error fetching TV shows:', error);
-    return [];
+    if (data.length > 0) {
+      // If there are comments, display the count and populate the comment list
+      commentHead.textContent = `Comments(${data.length})`;
+      commentList.innerHTML = '';
+
+      // Iterate through each comment and create HTML markup for display
+      data.forEach((comment) => {
+        const commentItem = `
+          <span class="comment-list">${comment.creation_date} ${comment.username}: ${comment.comment}</span>
+          <hr>
+        `;
+        commentList.innerHTML += commentItem;
+      });
+    } else {
+      // If there are no comments, display a message
+      commentHead.textContent = 'Comments(0)';
+      const noComment = `<span>No comments to show.</span>`;
+      commentList.innerHTML = noComment;
+    }
+  } catch (err) {
+    // Handle any errors that occur during the fetch
+    throw new Error('Request error: ', err);
   }
 };
 
-const fetchTVShowDetails = async (showId) => {
-  try {
-    // URL for fetching the TV show details
-    const url = `${API}/shows/${showId}`;
+const postComment = async (itemId) => {
+  const username = document.querySelector('.nameInput');
+  const comment = document.querySelector('.commentInput');
 
-    // Fetch TV show details from the API
-    const response = await fetch(url);
-    const show = await response.json();
+  if (username.value !== '' && comment.value !== '') {
+    try {
+      // Display the comment on the screen
+      const commentList = document.querySelector('.comment-list');
+      const commentItem = `
+        <span class="comment-list">${username.value}: ${comment.value}</span>
+        <hr>
+      `;
+      commentList.innerHTML += commentItem;
 
-    // Return the fetched data
-    return show;
-  } catch (error) {
-    // Handle errors, log the error to the console, and return null
-    console.error(`Error fetching details for show ID ${showId}:`, error);
-    return null;
+      // Send a POST request to the server to post the comment
+      const response = await fetch(invUrl, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ item_id: itemId, username: username.value, comment: comment.value }),
+      });
+
+      if (response.ok) {
+        // If the request is successful, clear the input fields
+        username.value = '';
+        comment.value = '';
+
+        // Fetch the updated comments to refresh the display
+        fetchComments(itemId);
+        return;
+      }
+    } catch (err) {
+      // Handle any errors that occur during the fetch
+      console.error('Request error:', err);
+    }
   }
 };
+
+// Show the comment popup modal
+const showCommentModal = async (movie) => {
+  const modal = document.createElement('div');
+  modal.className = 'comment-modal';
+  modal.innerHTML = `
+    <div class="header-container">
+      <div class="img-container">
+        <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
+      </div>
+      <i class="close-icon fa-solid fa-xmark fa-5x"></i>
+    </div>
+    <h3 class="movie-name">${movie.name}</h3>
+    <div class="details">
+      <div class="detail-item">${movie.summary}</div>
+      <div class="detail-item">
+        Language: ${movie.language}<br/>
+        Premiered: ${movie.premiered} <br/>
+        Genre: ${movie.genres[0]}
+      </div>
+    </div>
+
+    <div class="comments">
+      <h3 class="comm-header"></h3>
+      <div class="comment-list"></div>
+    </div>
+
+    <div class="add-comment">
+      <h3 class="add-comm-header">Add Comment</h3>
+      <div class="comment-input-container">
+        <input type="text" class="nameInput" size="30" placeholder="Your name">
+        <br>
+        <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
+        <br>
+        <button class="sub-comment-btn" type="button">Comment</button>
+      </div>
+    </div>
+  `;
+
+  const closeIcon = modal.querySelector('.close-icon');
+  closeIcon.addEventListener('click', () => {
+    modal.remove();
+  });
+
+  const commentBtn = modal.querySelector('.sub-comment-btn');
+  commentBtn.addEventListener('click', async () => {
+    await postComment(movie.id);
+  });
+
+  commentModal.appendChild(modal);
+
+  // Fetch comments for the movie
+  fetchComments(movie.id);
+};
+
+const movies = async () => {
+  // Fetch all movies
+  const arr = await (0,_getAllmovies__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+  // Select the main element
+  const mainElement = document.querySelector('main');
+
+  for (let i = 0; i < 9 && i < arr.length; i++) {
+    const movie = arr[i];
+
+    if (!movie || !movie.image || !movie.name) {
+      continue; // Skip iteration if movie data is missing
+    }
+
+    // Fetch likes for the current movie
+    const res = await (0,_a_like_inMovie__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    const currentValue = res;
+
+    let assignLike = 0;
+
+    // Filter likes based on the movie name
+    const like = currentValue.filter((elmt) => elmt.item_id === movie.name);
+
+    if (like.length > 0) {
+      assignLike = like[0].likes;
+    }
+
+    // Create a new movie item
+    const movieItem = document.createElement('article');
+    movieItem.className = 'movie-item';
+    movieItem.id = `movie-${i}`;
+    movieItem.innerHTML = `
+      <div class="item">
+        <img src="${movie.image.medium}" alt="${movie.name}">
+        <h5>${movie.name}</h5>
+        <div class="item-actions">
+          <a class="likes">
+           
+          <span class="likeBtn"><i class="fas fa-heart"></i></span>
+            
+            <p><span id="likes-status">${assignLike}</span> likes</p>
+          </a>
+          <button class="comments-btn">Comments</button>
+          <button type="button" class="reservation-btn">Reservations</button>
+        </div>
+      </div>
+    `;
+
+    // Append the movie item to the main element
+    mainElement.appendChild(movieItem);
+
+    // Show the comment modal for the current movie
+    movieItem.querySelector('.comments-btn').addEventListener('click', () => {
+      showCommentModal(movie);
+    });
+  }
+
+  // Update the counter with the total count of movies
+  const counter = document.getElementById('count');
+  counter.innerText = `[${arr.length}]`;
+  counter.style.color = 'blue';
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (movies);
+
 
 
 /***/ }),
@@ -74,7 +383,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "", "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml {\r\n  height: 100%;\r\n}\r\n\r\nbody {\r\n  display: flex;\r\n  flex-direction: column;\r\n  min-height: 100%;\r\n  font-size: 16px;\r\n}\r\n\r\nheader {\r\n  background-color: #333;\r\n  color: #fff;\r\n  padding: 10px;\r\n}\r\n\r\nnav {\r\n  align-items: center;\r\n  background-color: #666;\r\n  color: #fff;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  padding: 10px;\r\n}\r\n\r\n.logo {\r\n  margin-right: auto;\r\n}\r\n\r\n.nav-links {\r\n  display: flex;\r\n  list-style: none;\r\n}\r\n\r\n.nav-links li {\r\n  margin-right: 10px;\r\n}\r\n\r\n.nav-links li a {\r\n  color: #fff;\r\n  text-decoration: none;\r\n}\r\n\r\nmain {\r\n  display: grid;\r\n  grid-gap: 20px;\r\n  grid-template-columns: repeat(3, 1fr);\r\n  justify-content: center;\r\n}\r\n\r\n.movie-item {\r\n  align-items: center;\r\n  background-color: #f0f0f0;\r\n  display: flex;\r\n  flex-direction: column;\r\n  padding: 20px;\r\n}\r\n\r\n.movie-item img {\r\n  height: auto;\r\n  width: 200px;\r\n}\r\n\r\n.item-actions {\r\n  align-items: center;\r\n  display: flex;\r\n  flex-direction: column;\r\n  margin-top: 20px;\r\n}\r\n\r\n.comment-modal {\r\n  background-color: cadetblue;\r\n  border: 3px solid #fff;\r\n  bottom: 0;\r\n  height: inherit;\r\n  left: 0;\r\n  margin: 0 auto;\r\n  margin-top: 10px;\r\n  overflow-y: scroll;\r\n  padding-bottom: 20px;\r\n  position: fixed;\r\n  right: 0;\r\n  top: 0;\r\n  width: 80%;\r\n  z-index: 999;\r\n}\r\n\r\n.modal-header {\r\n  align-items: center;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.modal-title {\r\n  font-size: 18px;\r\n  font-weight: bold;\r\n  margin: 0;\r\n}\r\n\r\n.close-icon {\r\n  background: none;\r\n  border: none;\r\n  color: #999;\r\n  cursor: pointer;\r\n  font-size: 20px;\r\n}\r\n\r\n.modal-body img {\r\n  margin-bottom: 10px;\r\n  max-height: 200px;\r\n  object-fit: cover;\r\n  width: 100%;\r\n}\r\n\r\nfooter {\r\n  background-color: #333;\r\n  color: #fff;\r\n  margin-top: auto;\r\n  padding: 10px;\r\n  text-align: center;\r\n}", "",{"version":3,"sources":["webpack://./src/style.css"],"names":[],"mappings":"AAAA;EACE,sBAAsB;EACtB,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,gBAAgB;EAChB,eAAe;AACjB;;AAEA;EACE,sBAAsB;EACtB,WAAW;EACX,aAAa;AACf;;AAEA;EACE,mBAAmB;EACnB,sBAAsB;EACtB,WAAW;EACX,aAAa;EACb,8BAA8B;EAC9B,aAAa;AACf;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,aAAa;EACb,gBAAgB;AAClB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;EACX,qBAAqB;AACvB;;AAEA;EACE,aAAa;EACb,cAAc;EACd,qCAAqC;EACrC,uBAAuB;AACzB;;AAEA;EACE,mBAAmB;EACnB,yBAAyB;EACzB,aAAa;EACb,sBAAsB;EACtB,aAAa;AACf;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,mBAAmB;EACnB,aAAa;EACb,sBAAsB;EACtB,gBAAgB;AAClB;;AAEA;EACE,2BAA2B;EAC3B,sBAAsB;EACtB,SAAS;EACT,eAAe;EACf,OAAO;EACP,cAAc;EACd,gBAAgB;EAChB,kBAAkB;EAClB,oBAAoB;EACpB,eAAe;EACf,QAAQ;EACR,MAAM;EACN,UAAU;EACV,YAAY;AACd;;AAEA;EACE,mBAAmB;EACnB,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;AACrB;;AAEA;EACE,eAAe;EACf,iBAAiB;EACjB,SAAS;AACX;;AAEA;EACE,gBAAgB;EAChB,YAAY;EACZ,WAAW;EACX,eAAe;EACf,eAAe;AACjB;;AAEA;EACE,mBAAmB;EACnB,iBAAiB;EACjB,iBAAiB;EACjB,WAAW;AACb;;AAEA;EACE,sBAAsB;EACtB,WAAW;EACX,gBAAgB;EAChB,aAAa;EACb,kBAAkB;AACpB","sourcesContent":["* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml {\r\n  height: 100%;\r\n}\r\n\r\nbody {\r\n  display: flex;\r\n  flex-direction: column;\r\n  min-height: 100%;\r\n  font-size: 16px;\r\n}\r\n\r\nheader {\r\n  background-color: #333;\r\n  color: #fff;\r\n  padding: 10px;\r\n}\r\n\r\nnav {\r\n  align-items: center;\r\n  background-color: #666;\r\n  color: #fff;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  padding: 10px;\r\n}\r\n\r\n.logo {\r\n  margin-right: auto;\r\n}\r\n\r\n.nav-links {\r\n  display: flex;\r\n  list-style: none;\r\n}\r\n\r\n.nav-links li {\r\n  margin-right: 10px;\r\n}\r\n\r\n.nav-links li a {\r\n  color: #fff;\r\n  text-decoration: none;\r\n}\r\n\r\nmain {\r\n  display: grid;\r\n  grid-gap: 20px;\r\n  grid-template-columns: repeat(3, 1fr);\r\n  justify-content: center;\r\n}\r\n\r\n.movie-item {\r\n  align-items: center;\r\n  background-color: #f0f0f0;\r\n  display: flex;\r\n  flex-direction: column;\r\n  padding: 20px;\r\n}\r\n\r\n.movie-item img {\r\n  height: auto;\r\n  width: 200px;\r\n}\r\n\r\n.item-actions {\r\n  align-items: center;\r\n  display: flex;\r\n  flex-direction: column;\r\n  margin-top: 20px;\r\n}\r\n\r\n.comment-modal {\r\n  background-color: cadetblue;\r\n  border: 3px solid #fff;\r\n  bottom: 0;\r\n  height: inherit;\r\n  left: 0;\r\n  margin: 0 auto;\r\n  margin-top: 10px;\r\n  overflow-y: scroll;\r\n  padding-bottom: 20px;\r\n  position: fixed;\r\n  right: 0;\r\n  top: 0;\r\n  width: 80%;\r\n  z-index: 999;\r\n}\r\n\r\n.modal-header {\r\n  align-items: center;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.modal-title {\r\n  font-size: 18px;\r\n  font-weight: bold;\r\n  margin: 0;\r\n}\r\n\r\n.close-icon {\r\n  background: none;\r\n  border: none;\r\n  color: #999;\r\n  cursor: pointer;\r\n  font-size: 20px;\r\n}\r\n\r\n.modal-body img {\r\n  margin-bottom: 10px;\r\n  max-height: 200px;\r\n  object-fit: cover;\r\n  width: 100%;\r\n}\r\n\r\nfooter {\r\n  background-color: #333;\r\n  color: #fff;\r\n  margin-top: auto;\r\n  padding: 10px;\r\n  text-align: center;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -602,116 +911,15 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/style.css");
-/* harmony import */ var _modules_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/utils */ "./modules/utils.js");
+/* harmony import */ var _modules_utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/utils.js */ "./modules/utils.js");
+/* harmony import */ var _modules_liking_a_Movie_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modules/liking_a_Movie.js */ "./modules/liking_a_Movie.js");
 
 
-// Your remaining JavaScript code goes her
 
 
-
-// Get the container for the item list
-const itemListContainer = document.querySelector('.item-list');
-
-// Function to create a single item element
-const createItemElement = (item) => {
-  const {
-    name,
-    summary,
-    image: { medium },
-    likes
-  } = item;
-
-  // Create the item container
-  const itemContainer = document.createElement('div');
-  itemContainer.classList.add('item');
-
-  // Create the item title
-  const itemTitle = document.createElement('h2');
-  itemTitle.textContent = name;
-
-  // Create the item description
-  const itemDescription = document.createElement('p');
-  itemDescription.innerHTML = summary;
-
-  // Create the item actions container
-  const itemActionsContainer = document.createElement('div');
-  itemActionsContainer.classList.add('item-actions');
-
-  // Create the image container
-  const imageContainer = document.createElement('div');
-  imageContainer.classList.add('container');
-  const imageRow = document.createElement('div');
-  imageRow.classList.add('row');
-  const itemImage = document.createElement('img');
-  itemImage.src = medium;
-  itemImage.alt = 'Item Image';
-  imageRow.appendChild(itemImage);
-  imageContainer.appendChild(imageRow);
-
-  // Create the buttons container
-  const buttonsContainer = document.createElement('div');
-  buttonsContainer.classList.add('row');
-  const likesSpan = document.createElement('span');
-  likesSpan.classList.add('likes');
-  likesSpan.innerHTML = `<i class="fas fa-heart"></i> ${likes || 0} Likes`;
-  const commentsButton = document.createElement('button');
-  commentsButton.classList.add('comments-btn');
-  commentsButton.textContent = 'Comments';
-  const reservationsButton = document.createElement('button');
-  reservationsButton.classList.add('reservations-btn');
-  reservationsButton.textContent = 'Reservations';
-  buttonsContainer.appendChild(likesSpan);
-  buttonsContainer.appendChild(commentsButton);
-  buttonsContainer.appendChild(reservationsButton);
-
-  // Append all elements to the item container
-  itemActionsContainer.appendChild(imageContainer);
-  itemActionsContainer.appendChild(buttonsContainer);
-  itemContainer.appendChild(itemTitle);
-  itemContainer.appendChild(itemDescription);
-  itemContainer.appendChild(itemActionsContainer);
-
-  return itemContainer;
-};
-
-// Function to handle the like button click
-const handleLikeButtonClick = (item) => {
-  // TODO: Implement the logic to interact with the Involvement API and update the like count
-  console.log(`Liked ${item.name}`);
-};
-
-// Function to handle the comments button click
-const handleCommentsButtonClick = (item) => {
-  // TODO: Implement the logic to show the comments popup
-  console.log(`Show comments for ${item.name}`);
-};
-
-// Function to handle the reservations button click
-const handleReservationsButtonClick = (item) => {
-  // TODO: Implement the logic to show the reservations popup
-  console.log(`Show reservations for ${item.name}`);
-};
-
-// Fetch TV shows and display them in the item list container
-(0,_modules_utils__WEBPACK_IMPORTED_MODULE_1__.fetchTVShows)()
-  .then((shows) => {
-    shows.forEach((show) => {
-      const itemElement = createItemElement(show);
-      const likeButton = itemElement.querySelector('.likes');
-      const commentsButton = itemElement.querySelector('.comments-btn');
-      const reservationsButton = itemElement.querySelector('.reservations-btn');
-
-      likeButton.addEventListener('click', () => handleLikeButtonClick(show));
-      commentsButton.addEventListener('click', () => handleCommentsButtonClick(show));
-      reservationsButton.addEventListener('click', () => handleReservationsButtonClick(show));
-
-      itemListContainer.appendChild(itemElement);
-    });
-  })
-  .catch((error) => {
-    console.error('Error fetching TV shows:', error);
-  });
-
+const body = document.querySelector('body');
+(0,_modules_utils_js__WEBPACK_IMPORTED_MODULE_1__.movies)();
+body.addEventListener('click', _modules_liking_a_Movie_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 })();
 
 /******/ })()
