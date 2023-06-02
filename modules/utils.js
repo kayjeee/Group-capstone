@@ -42,14 +42,20 @@ const fetchComments = async (itemId) => {
   }
 };
 
-
 const postComment = async (itemId) => {
   const username = document.querySelector('.nameInput');
   const comment = document.querySelector('.commentInput');
 
-  // Check if the username and comment fields are not empty
   if (username.value !== '' && comment.value !== '') {
     try {
+      // Display the comment on the screen
+      const commentList = document.querySelector('.comment-list');
+      const commentItem = `
+        <span class="comment-list">${username.value}: ${comment.value}</span>
+        <hr>
+      `;
+      commentList.innerHTML += commentItem;
+
       // Send a POST request to the server to post the comment
       const response = await fetch(invUrl, {
         method: 'POST',
@@ -57,36 +63,20 @@ const postComment = async (itemId) => {
         body: JSON.stringify({ item_id: itemId, username: username.value, comment: comment.value }),
       });
 
-      // Parse the response as JSON
-      const data = await response.json();
-
-      // Check if the POST request was successful
       if (response.ok) {
-        // Clear the input fields
+        // If the request is successful, clear the input fields
         username.value = '';
         comment.value = '';
 
-        // Fetch the updated comments for the movie
+        // Fetch the updated comments to refresh the display
         fetchComments(itemId);
-
-        // Reload the comments popup by calling showCommentModal with the corresponding movie object
-        const movie = arr.find((movie) => movie.id === itemId);
-        showCommentModal(movie);
-
-        // Return the response data
-        return data;
-      } else {
-        // Log an error if the POST request was not successful
-        console.error('Error posting comment:', response.status, response.statusText);
+        return;
       }
     } catch (err) {
-      // Log an error if an error occurred during the POST request
-      console.error('Error posting comment:', err);
+      // Handle any errors that occur during the fetch
+      console.error('Request error:', err);
     }
   }
-
-  // Return false if the username or comment fields are empty
-  return false;
 };
 
 // Show the comment popup modal
@@ -180,7 +170,9 @@ const movies = async () => {
         <h5>${movie.name}</h5>
         <div class="item-actions">
           <a class="likes">
-            <img class="likeBtn" src="https://img.icons8.com/material-outlined/24/000000/filled-like.png">
+           
+          <span class="likeBtn"><i class="fas fa-heart"></i></span>
+            
             <p><span id="likes-status">${assignLike}</span> likes</p>
           </a>
           <button class="comments-btn">Comments</button>
