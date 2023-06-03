@@ -1,8 +1,7 @@
+import getAllmovies from './getAllmovies.js';
+import aLikeInMovie from './a_like_inMovie.js';
 
-import getAllmovies from "./getAllmovies";
-import a_Like_in_movie from "./a_like_inMovie";
-
-const commentModal = document.getElementById('commentModal');
+const commentModal = document.querySelector('.commentModal');
 
 const appId = 'Mlar7kUsbdh93qbI71nO';
 const invUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appId}/comments`;
@@ -33,7 +32,7 @@ const fetchComments = async (itemId) => {
     } else {
       // If there are no comments, display a message
       commentHead.textContent = 'Comments(0)';
-      const noComment = `<span>No comments to show.</span>`;
+      const noComment = '<span>No comments to show.</span>';
       commentList.innerHTML = noComment;
     }
   } catch (err) {
@@ -70,11 +69,10 @@ const postComment = async (itemId) => {
 
         // Fetch the updated comments to refresh the display
         fetchComments(itemId);
-        return;
       }
     } catch (err) {
       // Handle any errors that occur during the fetch
-      console.error('Request error:', err);
+      throw new Error('Request error: ', err);
     }
   }
 };
@@ -85,12 +83,13 @@ const showCommentModal = async (movie) => {
   modal.className = 'comment-modal';
   modal.innerHTML = `
     <div class="header-container">
-      <div class="img-container">
         <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
-      </div>
-      <i class="close-icon fa-solid fa-xmark fa-5x"></i>
     </div>
+    <div class='header-body'>
+    <div class="header-title">
     <h3 class="movie-name">${movie.name}</h3>
+    <i id='close-btn' class="close-icon fa-solid fa-xmark fa-5x"></i>
+    </div>
     <div class="details">
       <div class="detail-item">${movie.summary}</div>
       <div class="detail-item">
@@ -107,12 +106,11 @@ const showCommentModal = async (movie) => {
 
     <div class="add-comment">
       <h3 class="add-comm-header">Add Comment</h3>
-      <div class="comment-input-container">
+      <div class="input-container">
         <input type="text" class="nameInput" size="30" placeholder="Your name">
-        <br>
         <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
-        <br>
         <button class="sub-comment-btn" type="button">Comment</button>
+      </div>
       </div>
     </div>
   `;
@@ -120,6 +118,8 @@ const showCommentModal = async (movie) => {
   const closeIcon = modal.querySelector('.close-icon');
   closeIcon.addEventListener('click', () => {
     modal.remove();
+    const overlay = document.querySelector('#overlay');
+    overlay.classList.toggle('active');
   });
 
   const commentBtn = modal.querySelector('.sub-comment-btn');
@@ -139,16 +139,17 @@ const movies = async () => {
 
   // Select the main element
   const mainElement = document.querySelector('main');
+  const res = await aLikeInMovie();
 
-  for (let i = 0; i < 9 && i < arr.length; i++) {
+  for (let i = 0; i < 9; i += 1) {
     const movie = arr[i];
 
     if (!movie || !movie.image || !movie.name) {
-      continue; // Skip iteration if movie data is missing
+      return null;
     }
 
     // Fetch likes for the current movie
-    const res = await a_Like_in_movie();
+
     const currentValue = res;
 
     let assignLike = 0;
@@ -170,13 +171,10 @@ const movies = async () => {
         <h5>${movie.name}</h5>
         <div class="item-actions">
           <a class="likes">
-           
           <span class="likeBtn"><i class="fas fa-heart"></i></span>
-            
             <p><span id="likes-status">${assignLike}</span> likes</p>
           </a>
           <button class="comments-btn">Comments</button>
-          <button type="button" class="reservation-btn">Reservations</button>
         </div>
       </div>
     `;
@@ -187,13 +185,22 @@ const movies = async () => {
     // Show the comment modal for the current movie
     movieItem.querySelector('.comments-btn').addEventListener('click', () => {
       showCommentModal(movie);
+      const overlay = document.querySelector('#overlay');
+      overlay.classList.toggle('active');
     });
   }
 
   // Update the counter with the total count of movies
-  const counter = document.getElementById('count');
-  counter.innerText = `[${arr.length}]`;
-  counter.style.color = 'blue';
+
+  const articles = document.querySelectorAll('.movie-item');
+  articles.forEach((article) => {
+    if (article !== '') {
+      const counter = document.getElementById('count');
+      counter.innerText = `(${articles.length})`;
+      counter.style.color = 'black';
+    }
+  });
+  return null;
 };
 
 export default movies;

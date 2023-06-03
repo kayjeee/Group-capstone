@@ -12,7 +12,6 @@ const getAllmovies = async () => {
     // Assign the parsed data to the array
     arr = data;
   } catch (error) {
-    console.error('Error fetching movies:', error);
     return [];
   }
 
