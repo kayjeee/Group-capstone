@@ -45,7 +45,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 ## Live Demo
-[coming soon]()
+[link](https://kayjeee.github.io/Group-capstone/dist/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
