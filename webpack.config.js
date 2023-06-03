@@ -9,16 +9,6 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
-  devtool: 'source-map',
-  devServer: {
-    static: './dist',
-  },
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
-    publicPath: '/dist/',
-  },
   module: {
     rules: [
       {
@@ -26,5 +16,17 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
     ],
+  },
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
+  },
+  optimization: {
+    runtimeChunk: 'single',
   },
 };
