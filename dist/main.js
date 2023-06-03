@@ -193,7 +193,7 @@ const fetchComments = async (itemId) => {
     } else {
       // If there are no comments, display a message
       commentHead.textContent = 'Comments(0)';
-      const noComment = '<span>No comments to show.</span>';
+      const noComment = '<em>No comments to show.</em>';
       commentList.innerHTML = noComment;
     }
   } catch (err) {
@@ -211,7 +211,7 @@ const postComment = async (itemId) => {
       // Display the comment on the screen
       const commentList = document.querySelector('.comment-list');
       const commentItem = `
-        <span class="comment-list">${username.value}: ${comment.value}</span>
+        <em class="comment-list">${username.value}: ${comment.value}</em>
         <hr>
       `;
       commentList.innerHTML += commentItem;
@@ -243,37 +243,38 @@ const showCommentModal = async (movie) => {
   const modal = document.createElement('div');
   modal.className = 'comment-modal';
   modal.innerHTML = `
-    <div class="header-container">
-        <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
-    </div>
-    <div class='header-body'>
-    <div class="header-title">
-    <h3 class="movie-name">${movie.name}</h3>
-    <i id='close-btn' class="close-icon fa-solid fa-xmark fa-5x"></i>
-    </div>
-    <div class="details">
-      <div class="detail-item">${movie.summary}</div>
-      <div class="detail-item">
-        Language: ${movie.language}<br/>
-        Premiered: ${movie.premiered} <br/>
-        Genre: ${movie.genres[0]}
-      </div>
-    </div>
+  <section class="header-container">
+    <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
+</section>
+<section class='header-body'>
+    <section class="header-title">
+        <h3 class="movie-name">${movie.name}</h3>
+        <i id='close-btn' class="close-icon fa-solid fa-xmark fa-5x"></i>
+    </section>
+    <section class="details">
+        <section class="detail-item">${movie.summary}</section>
+        <section class="detail-item">
+            Language: ${movie.language}<br/>
+            Premiered: ${movie.premiered} <br/>
+            Genre: ${movie.genres[0]}
+        </section>
+    </section>
 
-    <div class="comments">
-      <h3 class="comm-header"></h3>
-      <div class="comment-list"></div>
-    </div>
+    <section class="comments">
+        <h3 class="comm-header"></h3>
+        <section class="comment-list"></section>
+    </section>
 
-    <div class="add-comment">
-      <h3 class="add-comm-header">Add Comment</h3>
-      <div class="input-container">
-        <input type="text" class="nameInput" size="30" placeholder="Your name">
-        <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
-        <button class="sub-comment-btn" type="button">Comment</button>
-      </div>
-      </div>
-    </div>
+    <section class="add-comment">
+        <h3 class="add-comm-header">Add Comment</h3>
+        <section class="input-container">
+            <input type="text" class="nameInput" size="30" placeholder="Your name">
+            <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
+            <button class="sub-comment-btn" type="button">Comment</button>
+        </section>
+    </section>
+</section>
+
   `;
 
   const closeIcon = modal.querySelector('.close-icon');
@@ -327,17 +328,18 @@ const movies = async () => {
     movieItem.className = 'movie-item';
     movieItem.id = `movie-${i}`;
     movieItem.innerHTML = `
-      <div class="item">
-        <img src="${movie.image.medium}" alt="${movie.name}">
-        <h5>${movie.name}</h5>
-        <div class="item-actions">
-          <a class="likes">
-          <span class="likeBtn"><i class="fas fa-heart"></i></span>
-            <p><span id="likes-status">${assignLike}</span> likes</p>
-          </a>
-          <button class="comments-btn">Comments</button>
-        </div>
-      </div>
+      
+    <section class="item">
+    <img src="${movie.image.medium}" alt="${movie.name}">
+    <h5>${movie.name}</h5>
+    <section class="item-actions">
+        <a class="likes">
+            <span class="likeBtn"><i class="fas fa-heart"></i></span>
+            <p><em id="likes-status">${assignLike}</em> likes</p>
+        </a>
+        <button class="comments-btn">Comments</button>
+    </section>
+    </section>
     `;
 
     // Append the movie item to the main element
@@ -389,7 +391,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nhtml {\n  height: 100%;\n}\n\n.header {\n  text-align: center;\n  background-color: gainsboro;\n}\n\nbody {\n  display: flex;\n  flex-direction: column;\n  min-height: 100%;\n  font-size: 16px;\n}\n\n.nav-bar {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n}\n\nli {\n  list-style: none;\n}\n\n.nav-bar a {\n  text-decoration: none;\n  font-weight: 500;\n  font-size: 1.3rem;\n  color: #333;\n  padding: 1rem;\n}\n\n.nav-links {\n  display: flex;\n  gap: 1rem;\n}\n\nmain {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: repeat(3, 1fr);\n  justify-content: center;\n  margin: 0 auto;\n  padding: 1rem;\n}\n\n.movie-item {\n  align-items: center;\n  background-color: #f0f0f0;\n  display: flex;\n  flex-direction: column;\n  padding: 20px;\n}\n\n.movie-item img {\n  height: auto;\n  width: 300px;\n}\n\n.item-actions {\n  align-items: center;\n  display: flex;\n  margin-top: 20px;\n  gap: 0.6rem;\n}\n\n.likes {\n  display: flex;\n  gap: 0.6rem;\n}\n\n.comments-btn {\n  padding: 0.3rem;\n  border-radius: 5px;\n  font-size: 1.2rem;\n  background-color: rgb(23, 131, 239);\n  cursor: pointer;\n  color: #fff;\n  border: none;\n}\n\n.item h5 {\n  font-size: 1.3rem;\n  color: rgb(239, 60, 60);\n}\n\n.comment-modal {\n  border: 3px solid #fff;\n  bottom: 0;\n  height: 80%;\n  margin: 0 auto;\n  margin-top: 10px;\n  overflow-y: scroll;\n  position: fixed;\n  right: 0;\n  z-index: 10;\n  display: flex;\n  padding: 0.5rem;\n  border-radius: 10px;\n  gap: 1rem;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background-color: #fff;\n  width: 800px;\n  max-width: 80%;\n}\n\n.modal-header {\n  align-items: center;\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 20px;\n}\n\n.modal-title {\n  font-size: 18px;\n  font-weight: bold;\n  margin: 0;\n}\n\n.modal-body img {\n  margin-bottom: 10px;\n  max-height: 300px;\n  object-fit: cover;\n  width: 100%;\n}\n\n#close-btn {\n  font-size: 1.5rem;\n  color: red;\n  cursor: pointer;\n}\n\n.header-title {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.movie-name {\n  font-size: 1.5rem;\n  color: rgb(138, 75, 146);\n}\n\n.details {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  padding: 0.7rem;\n  line-height: 1.2;\n}\n\n.nameInput {\n  padding: 0.5rem;\n  outline: none;\n  border-radius: 8px;\n  width: 250px;\n}\n\n.commentInput {\n  padding: 0.4rem;\n  outline: none;\n  border-radius: 6px;\n  width: 400px;\n}\n\n.input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n\n.sub-comment-btn {\n  width: 150px;\n  font-size: 1.3rem;\n  color: #fff;\n  background-color: rgb(104, 168, 104);\n  padding: 0.3rem;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n}\n\nfooter {\n  background-color: #333;\n  color: #fff;\n  margin-top: auto;\n  padding: 10px;\n  text-align: center;\n}\n\n.overlay-pop {\n  inset: 0;\n  display: flex;\n}\n\n#overlay {\n  inset: 0;\n  position: fixed;\n  background-color: rgba(193, 199, 208, 0.9);\n  backdrop-filter: blur(1px);\n  z-index: 9;\n  pointer-events: none;\n  opacity: 0;\n}\n\n#overlay.active {\n  pointer-events: all;\n  opacity: 1;\n}\n", "",{"version":3,"sources":["webpack://./src/style.css"],"names":[],"mappings":"AAAA;EACE,sBAAsB;EACtB,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,kBAAkB;EAClB,2BAA2B;AAC7B;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,gBAAgB;EAChB,eAAe;AACjB;;AAEA;EACE,aAAa;EACb,6BAA6B;EAC7B,mBAAmB;AACrB;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,qBAAqB;EACrB,gBAAgB;EAChB,iBAAiB;EACjB,WAAW;EACX,aAAa;AACf;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,aAAa;EACb,cAAc;EACd,qCAAqC;EACrC,uBAAuB;EACvB,cAAc;EACd,aAAa;AACf;;AAEA;EACE,mBAAmB;EACnB,yBAAyB;EACzB,aAAa;EACb,sBAAsB;EACtB,aAAa;AACf;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,mBAAmB;EACnB,aAAa;EACb,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,aAAa;EACb,WAAW;AACb;;AAEA;EACE,eAAe;EACf,kBAAkB;EAClB,iBAAiB;EACjB,mCAAmC;EACnC,eAAe;EACf,WAAW;EACX,YAAY;AACd;;AAEA;EACE,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,sBAAsB;EACtB,SAAS;EACT,WAAW;EACX,cAAc;EACd,gBAAgB;EAChB,kBAAkB;EAClB,eAAe;EACf,QAAQ;EACR,WAAW;EACX,aAAa;EACb,eAAe;EACf,mBAAmB;EACnB,SAAS;EACT,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,sBAAsB;EACtB,YAAY;EACZ,cAAc;AAChB;;AAEA;EACE,mBAAmB;EACnB,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;AACrB;;AAEA;EACE,eAAe;EACf,iBAAiB;EACjB,SAAS;AACX;;AAEA;EACE,mBAAmB;EACnB,iBAAiB;EACjB,iBAAiB;EACjB,WAAW;AACb;;AAEA;EACE,iBAAiB;EACjB,UAAU;EACV,eAAe;AACjB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;AACrB;;AAEA;EACE,iBAAiB;EACjB,wBAAwB;AAC1B;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,WAAW;EACX,eAAe;EACf,gBAAgB;AAClB;;AAEA;EACE,eAAe;EACf,aAAa;EACb,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,eAAe;EACf,aAAa;EACb,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,iBAAiB;EACjB,WAAW;EACX,oCAAoC;EACpC,eAAe;EACf,YAAY;EACZ,kBAAkB;EAClB,eAAe;AACjB;;AAEA;EACE,sBAAsB;EACtB,WAAW;EACX,gBAAgB;EAChB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,QAAQ;EACR,aAAa;AACf;;AAEA;EACE,QAAQ;EACR,eAAe;EACf,0CAA0C;EAC1C,0BAA0B;EAC1B,UAAU;EACV,oBAAoB;EACpB,UAAU;AACZ;;AAEA;EACE,mBAAmB;EACnB,UAAU;AACZ","sourcesContent":["* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nhtml {\n  height: 100%;\n}\n\n.header {\n  text-align: center;\n  background-color: gainsboro;\n}\n\nbody {\n  display: flex;\n  flex-direction: column;\n  min-height: 100%;\n  font-size: 16px;\n}\n\n.nav-bar {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n}\n\nli {\n  list-style: none;\n}\n\n.nav-bar a {\n  text-decoration: none;\n  font-weight: 500;\n  font-size: 1.3rem;\n  color: #333;\n  padding: 1rem;\n}\n\n.nav-links {\n  display: flex;\n  gap: 1rem;\n}\n\nmain {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: repeat(3, 1fr);\n  justify-content: center;\n  margin: 0 auto;\n  padding: 1rem;\n}\n\n.movie-item {\n  align-items: center;\n  background-color: #f0f0f0;\n  display: flex;\n  flex-direction: column;\n  padding: 20px;\n}\n\n.movie-item img {\n  height: auto;\n  width: 300px;\n}\n\n.item-actions {\n  align-items: center;\n  display: flex;\n  margin-top: 20px;\n  gap: 0.6rem;\n}\n\n.likes {\n  display: flex;\n  gap: 0.6rem;\n}\n\n.comments-btn {\n  padding: 0.3rem;\n  border-radius: 5px;\n  font-size: 1.2rem;\n  background-color: rgb(23, 131, 239);\n  cursor: pointer;\n  color: #fff;\n  border: none;\n}\n\n.item h5 {\n  font-size: 1.3rem;\n  color: rgb(239, 60, 60);\n}\n\n.comment-modal {\n  border: 3px solid #fff;\n  bottom: 0;\n  height: 80%;\n  margin: 0 auto;\n  margin-top: 10px;\n  overflow-y: scroll;\n  position: fixed;\n  right: 0;\n  z-index: 10;\n  display: flex;\n  padding: 0.5rem;\n  border-radius: 10px;\n  gap: 1rem;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background-color: #fff;\n  width: 800px;\n  max-width: 80%;\n}\n\n.modal-header {\n  align-items: center;\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 20px;\n}\n\n.modal-title {\n  font-size: 18px;\n  font-weight: bold;\n  margin: 0;\n}\n\n.modal-body img {\n  margin-bottom: 10px;\n  max-height: 300px;\n  object-fit: cover;\n  width: 100%;\n}\n\n#close-btn {\n  font-size: 1.5rem;\n  color: red;\n  cursor: pointer;\n}\n\n.header-title {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.movie-name {\n  font-size: 1.5rem;\n  color: rgb(138, 75, 146);\n}\n\n.details {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  padding: 0.7rem;\n  line-height: 1.2;\n}\n\n.nameInput {\n  padding: 0.5rem;\n  outline: none;\n  border-radius: 8px;\n  width: 250px;\n}\n\n.commentInput {\n  padding: 0.4rem;\n  outline: none;\n  border-radius: 6px;\n  width: 400px;\n}\n\n.input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n\n.sub-comment-btn {\n  width: 150px;\n  font-size: 1.3rem;\n  color: #fff;\n  background-color: rgb(104, 168, 104);\n  padding: 0.3rem;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n}\n\nfooter {\n  background-color: #333;\n  color: #fff;\n  margin-top: auto;\n  padding: 10px;\n  text-align: center;\n}\n\n.overlay-pop {\n  inset: 0;\n  display: flex;\n}\n\n#overlay {\n  inset: 0;\n  position: fixed;\n  background-color: rgba(193, 199, 208, 0.9);\n  backdrop-filter: blur(1px);\n  z-index: 9;\n  pointer-events: none;\n  opacity: 0;\n}\n\n#overlay.active {\n  pointer-events: all;\n  opacity: 1;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml {\r\n  height: 100%;\r\n}\r\n\r\n.header-container {\r\n  transition: transform 0.3s ease-in-out;\r\n}\r\n\r\n.header-container.active {\r\n  transform: scale(1.2);\r\n}\r\n\r\n.close-icon {\r\n  transition: transform 0.3s ease-in-out;\r\n}\r\n\r\n.close-icon.active {\r\n  transform: rotate(45deg);\r\n}\r\n\r\n.header {\r\n  text-align: center;\r\n  background-color: gainsboro;\r\n}\r\n\r\nbody {\r\n  display: flex;\r\n  flex-direction: column;\r\n  min-height: 100%;\r\n  font-size: 16px;\r\n}\r\n\r\n.nav-bar {\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n}\r\n\r\nli {\r\n  list-style: none;\r\n}\r\n\r\n.nav-bar a {\r\n  text-decoration: none;\r\n  font-weight: 500;\r\n  font-size: 1.3rem;\r\n  color: #333;\r\n  padding: 1rem;\r\n}\r\n\r\n.nav-links {\r\n  display: flex;\r\n  gap: 1rem;\r\n}\r\n\r\nmain {\r\n  display: grid;\r\n  grid-gap: 20px;\r\n  grid-template-columns: repeat(3, 1fr);\r\n  justify-content: center;\r\n  margin: 0 auto;\r\n  padding: 1rem;\r\n}\r\n\r\n.movie-item {\r\n  align-items: center;\r\n  background-color: #f0f0f0;\r\n  display: flex;\r\n  flex-direction: column;\r\n  padding: 20px;\r\n}\r\n\r\n.movie-item img {\r\n  height: auto;\r\n  width: 300px;\r\n}\r\n\r\n.item-actions {\r\n  align-items: center;\r\n  display: flex;\r\n  margin-top: 20px;\r\n  gap: 0.6rem;\r\n}\r\n\r\n.likes {\r\n  display: flex;\r\n  gap: 0.6rem;\r\n}\r\n\r\n.comments-btn {\r\n  padding: 0.3rem;\r\n  border-radius: 5px;\r\n  font-size: 1.2rem;\r\n  background-color: rgb(23, 131, 239);\r\n  cursor: pointer;\r\n  color: #fff;\r\n  border: none;\r\n}\r\n\r\n.item h5 {\r\n  font-size: 1.3rem;\r\n  color: rgb(239, 60, 60);\r\n}\r\n\r\n.comment-modal {\r\n  border: 3px solid #fff;\r\n  bottom: 0;\r\n  height: 80%;\r\n  margin: 0 auto;\r\n  margin-top: 10px;\r\n  overflow-y: scroll;\r\n  position: fixed;\r\n  right: 0;\r\n  z-index: 10;\r\n  display: flex;\r\n  padding: 0.5rem;\r\n  border-radius: 10px;\r\n  gap: 1rem;\r\n  top: 50%;\r\n  left: 50%;\r\n  transform: translate(-50%, -50%);\r\n  background-color: #fff;\r\n  width: 800px;\r\n  max-width: 80%;\r\n}\r\n\r\n.modal-header {\r\n  align-items: center;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.modal-title {\r\n  font-size: 18px;\r\n  font-weight: bold;\r\n  margin: 0;\r\n}\r\n\r\n.modal-body img {\r\n  margin-bottom: 10px;\r\n  max-height: 300px;\r\n  object-fit: cover;\r\n  width: 100%;\r\n}\r\n\r\n#close-btn {\r\n  font-size: 1.5rem;\r\n  color: red;\r\n  cursor: pointer;\r\n}\r\n\r\n.header-title {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n}\r\n\r\n.movie-name {\r\n  font-size: 1.5rem;\r\n  color: rgb(138, 75, 146);\r\n}\r\n\r\n.details {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 0.5rem;\r\n  padding: 0.7rem;\r\n  line-height: 1.2;\r\n}\r\n\r\n.nameInput {\r\n  padding: 0.5rem;\r\n  outline: none;\r\n  border-radius: 8px;\r\n  width: 250px;\r\n}\r\n\r\n.commentInput {\r\n  padding: 0.4rem;\r\n  outline: none;\r\n  border-radius: 6px;\r\n  width: 400px;\r\n}\r\n\r\n.input-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 0.5rem;\r\n}\r\n\r\n.sub-comment-btn {\r\n  width: 150px;\r\n  font-size: 1.3rem;\r\n  color: #fff;\r\n  background-color: rgb(104, 168, 104);\r\n  padding: 0.3rem;\r\n  border: none;\r\n  border-radius: 6px;\r\n  cursor: pointer;\r\n}\r\n\r\nfooter {\r\n  background-color: #333;\r\n  color: #fff;\r\n  margin-top: auto;\r\n  padding: 10px;\r\n  text-align: center;\r\n}\r\n\r\n.overlay-pop {\r\n  inset: 0;\r\n  display: flex;\r\n}\r\n\r\n#overlay {\r\n  inset: 0;\r\n  position: fixed;\r\n  background-color: rgba(193, 199, 208, 0.9);\r\n  backdrop-filter: blur(1px);\r\n  z-index: 9;\r\n  pointer-events: none;\r\n  opacity: 0;\r\n}\r\n\r\n#overlay.active {\r\n  pointer-events: all;\r\n  opacity: 1;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/style.css"],"names":[],"mappings":"AAAA;EACE,sBAAsB;EACtB,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,sCAAsC;AACxC;;AAEA;EACE,qBAAqB;AACvB;;AAEA;EACE,sCAAsC;AACxC;;AAEA;EACE,wBAAwB;AAC1B;;AAEA;EACE,kBAAkB;EAClB,2BAA2B;AAC7B;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,gBAAgB;EAChB,eAAe;AACjB;;AAEA;EACE,aAAa;EACb,6BAA6B;EAC7B,mBAAmB;AACrB;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,qBAAqB;EACrB,gBAAgB;EAChB,iBAAiB;EACjB,WAAW;EACX,aAAa;AACf;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,aAAa;EACb,cAAc;EACd,qCAAqC;EACrC,uBAAuB;EACvB,cAAc;EACd,aAAa;AACf;;AAEA;EACE,mBAAmB;EACnB,yBAAyB;EACzB,aAAa;EACb,sBAAsB;EACtB,aAAa;AACf;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,mBAAmB;EACnB,aAAa;EACb,gBAAgB;EAChB,WAAW;AACb;;AAEA;EACE,aAAa;EACb,WAAW;AACb;;AAEA;EACE,eAAe;EACf,kBAAkB;EAClB,iBAAiB;EACjB,mCAAmC;EACnC,eAAe;EACf,WAAW;EACX,YAAY;AACd;;AAEA;EACE,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,sBAAsB;EACtB,SAAS;EACT,WAAW;EACX,cAAc;EACd,gBAAgB;EAChB,kBAAkB;EAClB,eAAe;EACf,QAAQ;EACR,WAAW;EACX,aAAa;EACb,eAAe;EACf,mBAAmB;EACnB,SAAS;EACT,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,sBAAsB;EACtB,YAAY;EACZ,cAAc;AAChB;;AAEA;EACE,mBAAmB;EACnB,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;AACrB;;AAEA;EACE,eAAe;EACf,iBAAiB;EACjB,SAAS;AACX;;AAEA;EACE,mBAAmB;EACnB,iBAAiB;EACjB,iBAAiB;EACjB,WAAW;AACb;;AAEA;EACE,iBAAiB;EACjB,UAAU;EACV,eAAe;AACjB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;AACrB;;AAEA;EACE,iBAAiB;EACjB,wBAAwB;AAC1B;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,WAAW;EACX,eAAe;EACf,gBAAgB;AAClB;;AAEA;EACE,eAAe;EACf,aAAa;EACb,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,eAAe;EACf,aAAa;EACb,kBAAkB;EAClB,YAAY;AACd;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,iBAAiB;EACjB,WAAW;EACX,oCAAoC;EACpC,eAAe;EACf,YAAY;EACZ,kBAAkB;EAClB,eAAe;AACjB;;AAEA;EACE,sBAAsB;EACtB,WAAW;EACX,gBAAgB;EAChB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,QAAQ;EACR,aAAa;AACf;;AAEA;EACE,QAAQ;EACR,eAAe;EACf,0CAA0C;EAC1C,0BAA0B;EAC1B,UAAU;EACV,oBAAoB;EACpB,UAAU;AACZ;;AAEA;EACE,mBAAmB;EACnB,UAAU;AACZ","sourcesContent":["* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml {\r\n  height: 100%;\r\n}\r\n\r\n.header-container {\r\n  transition: transform 0.3s ease-in-out;\r\n}\r\n\r\n.header-container.active {\r\n  transform: scale(1.2);\r\n}\r\n\r\n.close-icon {\r\n  transition: transform 0.3s ease-in-out;\r\n}\r\n\r\n.close-icon.active {\r\n  transform: rotate(45deg);\r\n}\r\n\r\n.header {\r\n  text-align: center;\r\n  background-color: gainsboro;\r\n}\r\n\r\nbody {\r\n  display: flex;\r\n  flex-direction: column;\r\n  min-height: 100%;\r\n  font-size: 16px;\r\n}\r\n\r\n.nav-bar {\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n}\r\n\r\nli {\r\n  list-style: none;\r\n}\r\n\r\n.nav-bar a {\r\n  text-decoration: none;\r\n  font-weight: 500;\r\n  font-size: 1.3rem;\r\n  color: #333;\r\n  padding: 1rem;\r\n}\r\n\r\n.nav-links {\r\n  display: flex;\r\n  gap: 1rem;\r\n}\r\n\r\nmain {\r\n  display: grid;\r\n  grid-gap: 20px;\r\n  grid-template-columns: repeat(3, 1fr);\r\n  justify-content: center;\r\n  margin: 0 auto;\r\n  padding: 1rem;\r\n}\r\n\r\n.movie-item {\r\n  align-items: center;\r\n  background-color: #f0f0f0;\r\n  display: flex;\r\n  flex-direction: column;\r\n  padding: 20px;\r\n}\r\n\r\n.movie-item img {\r\n  height: auto;\r\n  width: 300px;\r\n}\r\n\r\n.item-actions {\r\n  align-items: center;\r\n  display: flex;\r\n  margin-top: 20px;\r\n  gap: 0.6rem;\r\n}\r\n\r\n.likes {\r\n  display: flex;\r\n  gap: 0.6rem;\r\n}\r\n\r\n.comments-btn {\r\n  padding: 0.3rem;\r\n  border-radius: 5px;\r\n  font-size: 1.2rem;\r\n  background-color: rgb(23, 131, 239);\r\n  cursor: pointer;\r\n  color: #fff;\r\n  border: none;\r\n}\r\n\r\n.item h5 {\r\n  font-size: 1.3rem;\r\n  color: rgb(239, 60, 60);\r\n}\r\n\r\n.comment-modal {\r\n  border: 3px solid #fff;\r\n  bottom: 0;\r\n  height: 80%;\r\n  margin: 0 auto;\r\n  margin-top: 10px;\r\n  overflow-y: scroll;\r\n  position: fixed;\r\n  right: 0;\r\n  z-index: 10;\r\n  display: flex;\r\n  padding: 0.5rem;\r\n  border-radius: 10px;\r\n  gap: 1rem;\r\n  top: 50%;\r\n  left: 50%;\r\n  transform: translate(-50%, -50%);\r\n  background-color: #fff;\r\n  width: 800px;\r\n  max-width: 80%;\r\n}\r\n\r\n.modal-header {\r\n  align-items: center;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.modal-title {\r\n  font-size: 18px;\r\n  font-weight: bold;\r\n  margin: 0;\r\n}\r\n\r\n.modal-body img {\r\n  margin-bottom: 10px;\r\n  max-height: 300px;\r\n  object-fit: cover;\r\n  width: 100%;\r\n}\r\n\r\n#close-btn {\r\n  font-size: 1.5rem;\r\n  color: red;\r\n  cursor: pointer;\r\n}\r\n\r\n.header-title {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n}\r\n\r\n.movie-name {\r\n  font-size: 1.5rem;\r\n  color: rgb(138, 75, 146);\r\n}\r\n\r\n.details {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 0.5rem;\r\n  padding: 0.7rem;\r\n  line-height: 1.2;\r\n}\r\n\r\n.nameInput {\r\n  padding: 0.5rem;\r\n  outline: none;\r\n  border-radius: 8px;\r\n  width: 250px;\r\n}\r\n\r\n.commentInput {\r\n  padding: 0.4rem;\r\n  outline: none;\r\n  border-radius: 6px;\r\n  width: 400px;\r\n}\r\n\r\n.input-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 0.5rem;\r\n}\r\n\r\n.sub-comment-btn {\r\n  width: 150px;\r\n  font-size: 1.3rem;\r\n  color: #fff;\r\n  background-color: rgb(104, 168, 104);\r\n  padding: 0.3rem;\r\n  border: none;\r\n  border-radius: 6px;\r\n  cursor: pointer;\r\n}\r\n\r\nfooter {\r\n  background-color: #333;\r\n  color: #fff;\r\n  margin-top: auto;\r\n  padding: 10px;\r\n  text-align: center;\r\n}\r\n\r\n.overlay-pop {\r\n  inset: 0;\r\n  display: flex;\r\n}\r\n\r\n#overlay {\r\n  inset: 0;\r\n  position: fixed;\r\n  background-color: rgba(193, 199, 208, 0.9);\r\n  backdrop-filter: blur(1px);\r\n  z-index: 9;\r\n  pointer-events: none;\r\n  opacity: 0;\r\n}\r\n\r\n#overlay.active {\r\n  pointer-events: all;\r\n  opacity: 1;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
