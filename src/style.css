@@ -8,6 +8,22 @@ html {
   height: 100%;
 }
 
+.header-container {
+  transition: transform 0.3s ease-in-out;
+}
+
+.header-container.active {
+  transform: scale(1.2);
+}
+
+.close-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.close-icon.active {
+  transform: rotate(45deg);
+}
+
 .header {
   text-align: center;
   background-color: gainsboro;
