@@ -32,7 +32,7 @@ const fetchComments = async (itemId) => {
     } else {
       // If there are no comments, display a message
       commentHead.textContent = 'Comments(0)';
-      const noComment = '<span>No comments to show.</span>';
+      const noComment = '<em>No comments to show.</em>';
       commentList.innerHTML = noComment;
     }
   } catch (err) {
@@ -50,7 +50,7 @@ const postComment = async (itemId) => {
       // Display the comment on the screen
       const commentList = document.querySelector('.comment-list');
       const commentItem = `
-        <span class="comment-list">${username.value}: ${comment.value}</span>
+        <em class="comment-list">${username.value}: ${comment.value}</em>
         <hr>
       `;
       commentList.innerHTML += commentItem;
@@ -82,37 +82,38 @@ const showCommentModal = async (movie) => {
   const modal = document.createElement('div');
   modal.className = 'comment-modal';
   modal.innerHTML = `
-    <div class="header-container">
-        <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
-    </div>
-    <div class='header-body'>
-    <div class="header-title">
-    <h3 class="movie-name">${movie.name}</h3>
-    <i id='close-btn' class="close-icon fa-solid fa-xmark fa-5x"></i>
-    </div>
-    <div class="details">
-      <div class="detail-item">${movie.summary}</div>
-      <div class="detail-item">
-        Language: ${movie.language}<br/>
-        Premiered: ${movie.premiered} <br/>
-        Genre: ${movie.genres[0]}
-      </div>
-    </div>
+  <section class="header-container">
+    <img src="${movie.image.medium}" class="mov-img" alt="Movie Image">
+</section>
+<section class='header-body'>
+    <section class="header-title">
+        <h3 class="movie-name">${movie.name}</h3>
+        <i id='close-btn' class="close-icon fa-solid fa-xmark fa-5x"></i>
+    </section>
+    <section class="details">
+        <section class="detail-item">${movie.summary}</section>
+        <section class="detail-item">
+            Language: ${movie.language}<br/>
+            Premiered: ${movie.premiered} <br/>
+            Genre: ${movie.genres[0]}
+        </section>
+    </section>
 
-    <div class="comments">
-      <h3 class="comm-header"></h3>
-      <div class="comment-list"></div>
-    </div>
+    <section class="comments">
+        <h3 class="comm-header"></h3>
+        <section class="comment-list"></section>
+    </section>
 
-    <div class="add-comment">
-      <h3 class="add-comm-header">Add Comment</h3>
-      <div class="input-container">
-        <input type="text" class="nameInput" size="30" placeholder="Your name">
-        <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
-        <button class="sub-comment-btn" type="button">Comment</button>
-      </div>
-      </div>
-    </div>
+    <section class="add-comment">
+        <h3 class="add-comm-header">Add Comment</h3>
+        <section class="input-container">
+            <input type="text" class="nameInput" size="30" placeholder="Your name">
+            <textarea class="commentInput" rows="5" cols="30" placeholder="Your insights"></textarea>
+            <button class="sub-comment-btn" type="button">Comment</button>
+        </section>
+    </section>
+</section>
+
   `;
 
   const closeIcon = modal.querySelector('.close-icon');
@@ -166,17 +167,18 @@ const movies = async () => {
     movieItem.className = 'movie-item';
     movieItem.id = `movie-${i}`;
     movieItem.innerHTML = `
-      <div class="item">
-        <img src="${movie.image.medium}" alt="${movie.name}">
-        <h5>${movie.name}</h5>
-        <div class="item-actions">
-          <a class="likes">
-          <span class="likeBtn"><i class="fas fa-heart"></i></span>
-            <p><span id="likes-status">${assignLike}</span> likes</p>
-          </a>
-          <button class="comments-btn">Comments</button>
-        </div>
-      </div>
+      
+    <section class="item">
+    <img src="${movie.image.medium}" alt="${movie.name}">
+    <h5>${movie.name}</h5>
+    <section class="item-actions">
+        <a class="likes">
+            <span class="likeBtn"><i class="fas fa-heart"></i></span>
+            <p><em id="likes-status">${assignLike}</em> likes</p>
+        </a>
+        <button class="comments-btn">Comments</button>
+    </section>
+    </section>
     `;
 
     // Append the movie item to the main element

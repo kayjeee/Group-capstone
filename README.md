@@ -44,9 +44,14 @@
 - **fetch data from api**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-## Live Demo
-[coming soon]()
+<!-- LIVE DEMO -->
 
+## 🚀 Live Demo <a name="live-demo"></a>
+
+> the link to the deployed project.
+
+- [Live Demo Link](https://kayjeee.github.io/Group-capstone/dist/)
+- 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Video presentation Link
